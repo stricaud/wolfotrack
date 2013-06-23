@@ -1,0 +1,51 @@
+==================
+Wolfotrack INSTALL
+==================
+
+Depedencies
+===========
+
+You need libnetfilter_conntrack and the SDL library.
+
+The Makefile is generated using cmake.
+
+Compilation
+===========
+
+Just run :
+$ cmake .
+$ make
+
+Get shareware file :
+
+$ wget http://www.wallinfire.net/files/wolf3d-data-shareware.tar.gz
+
+Then extract and copy wolfotrack binary in the data directory:
+
+$ tar -xf wolf3d-data-shareware.tar.gz
+$ cp sdlwolf3d wolf3d-data-shareware/
+
+
+Usage
+=====
+Kernel configuration
+~~~~~~~~~~~~~~~~~~~~
+
+After, you must activate the connection tracking using:
+
+# iptables -A OUTPUT -m state --state ! INVALID -j ACCEPT
+
+However, if you really want to kill your connections, you can use:
+
+# iptables -P INPUT DROP
+# iptables -P OUTPUT DROP
+# iptables -A OUTPUT -m state --state ! INVALID -j ACCEPT
+# iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+And do not forget to run wolfotrack as root ;-)
+
+Managing conntrack
+~~~~~~~~~~~~~~~~~~
+
+$ sudo ./sdlwolf3d x3
+
